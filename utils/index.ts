@@ -10,10 +10,13 @@ const createPrompt = (
   language: string,
 ) => {
   return endent`
-  Provide a ${language} function to execute the below command according the following help docs:
+  The following is a help document for a command, please implement a ${language} function that can execute this command in ${language} environment:
+  \`\`\`text
   ${help_doc}
+  \`\`\`
   
-  Then provide the json code to descpribe this command function. All descriptions, including function functions, should be consistent with the help documentation, and the format is the same as in the following example:
+  Then, generate the json code to descpribe this command function. The descriptions should be consistent with the help documentation, and the format is the same as in the following example:
+  \`\`\`json
   [{
     "name": "get_current_weather",
     "description": "Get the current weather",
@@ -33,6 +36,7 @@ const createPrompt = (
         "required": ["location", "format"],
     },
   }]
+  \`\`\`
   IMPORTANT: Just provide the code without going into detail.
   If there is a lack of details, provide most logical solution.
   You are not allowed to ask for more details.

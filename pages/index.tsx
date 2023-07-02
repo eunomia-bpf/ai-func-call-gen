@@ -10,8 +10,50 @@ import { useEffect, useState } from 'react';
 export default function Home() {
   const [inputLanguage, setInputLanguage] = useState<string>('Help Doc');
   const [outputLanguage, setOutputLanguage] = useState<string>('Python');
-  const [inputCode, setInputCode] = useState<string>('');
-  const [outputCode, setOutputCode] = useState<string>('');
+  const [inputCode, setInputCode] = useState<string>(`
+    pwd: pwd [-LP]
+      Print the name of the current working directory.
+      
+      Options:
+        -L        print the value of $PWD if it names the current working
+                  directory
+        -P        print the physical directory, without any symbolic links
+      
+      By default, \`pwd\` behaves as if \`-L\` were specified.
+      
+      Exit Status:
+      Returns 0 unless an invalid option is given or the current directory
+      cannot be read.`
+  );
+  const [outputCode, setOutputCode] = useState<string>(`
+  import os
+  def pwd(options):
+      if options == "-P":
+          print(os.getcwd())
+      else:
+          print(os.getenv("PWD"))
+
+  # JSON code
+  [{
+    "name": "pwd",
+    "description": "Print the name of the current working directory.",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "options": {
+                "type": "string",
+                "enum": ["-L", "-P"],
+                "description": "Options for printing the current working directory.",
+            }
+        },
+        "required": ["options"],
+    },
+    "returns": {
+        "type": "integer",
+        "description": "Returns 0 unless an invalid option is given or the current directory cannot be read."
+    }
+  }]
+  `);
   const [model, setModel] = useState<OpenAIModel>('gpt-3.5-turbo');
   const [loading, setLoading] = useState<boolean>(false);
   const [hasTranslated, setHasTranslated] = useState<boolean>(false);
@@ -130,7 +172,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Code Translator</title>
+        <title>Code Generate</title>
         <meta
           name="description"
           content="Use AI to translate code from one language to another."
@@ -140,7 +182,16 @@ export default function Home() {
       </Head>
       <div className="flex h-full min-h-screen flex-col items-center bg-[#0E1117] px-4 pb-20 text-neutral-200 sm:px-10">
         <div className="mt-10 flex flex-col items-center justify-center sm:mt-20">
-          <div className="text-4xl font-bold">AI Code Translator</div>
+          <div className="text-4xl font-bold">Function Call Generate</div>
+        </div>
+
+        <div className="mt-10 flex flex-col items-center justify-center sm:mt-5">
+          <div className="mt-5 text-center text-sm">
+            Make gpt function call api from commandline help info. <br></br>
+            See <a href='https://platform.openai.com/docs/guides/gpt/function-calling'> 
+              <u>function-calling</u> </a>
+            for more detail about function call.
+          </div>
         </div>
 
         <div className="mt-6 text-center text-sm">
@@ -155,16 +206,16 @@ export default function Home() {
             onClick={() => handleTranslate()}
             disabled={loading}
           >
-            {loading ? 'Translating...' : 'Translate'}
+            {loading ? 'Generating...' : 'Generate'}
           </button>
         </div>
 
         <div className="mt-2 text-center text-xs">
           {loading
-            ? 'Translating...'
+            ? 'Generating...'
             : hasTranslated
             ? 'Output copied to clipboard!'
-            : 'Enter some code and click "Translate"'}
+            : 'Enter some code and click "Generate"'}
         </div>
 
         <div className="mt-6 flex w-full max-w-[1200px] flex-col justify-between sm:flex-row sm:space-x-4">
@@ -172,7 +223,7 @@ export default function Home() {
             <div className="text-center text-xl font-bold">Input</div>
 
             <div className="w-full rounded-md bg-[#1F2937] px-4 py-2 text-neutral-200" >
-              Help Doc
+              Help Doc of Command
             </div>
 
             {inputLanguage === 'Natural Language' ? (
