@@ -1,9 +1,8 @@
 export type OpenAIModel = 'gpt-3.5-turbo' | 'gpt-4';
 
 export interface TranslateBody {
-  inputLanguage: string;
-  outputLanguage: string;
-  inputCode: string;
+  help_doc: string;
+  language: string;
   model: OpenAIModel;
   apiKey: string;
 }

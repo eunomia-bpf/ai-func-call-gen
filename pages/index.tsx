@@ -8,7 +8,7 @@ import Head from 'next/head';
 import { useEffect, useState } from 'react';
 
 export default function Home() {
-  const [inputLanguage, setInputLanguage] = useState<string>('JavaScript');
+  const [inputLanguage, setInputLanguage] = useState<string>('Help Doc');
   const [outputLanguage, setOutputLanguage] = useState<string>('Python');
   const [inputCode, setInputCode] = useState<string>('');
   const [outputCode, setOutputCode] = useState<string>('');
@@ -46,11 +46,11 @@ export default function Home() {
     setOutputCode('');
 
     const controller = new AbortController();
-
+    const help_doc = inputCode;
+    const language = outputLanguage;
     const body: TranslateBody = {
-      inputLanguage,
-      outputLanguage,
-      inputCode,
+      help_doc,
+      language,
       model,
       apiKey,
     };
@@ -171,15 +171,9 @@ export default function Home() {
           <div className="h-100 flex flex-col justify-center space-y-2 sm:w-2/4">
             <div className="text-center text-xl font-bold">Input</div>
 
-            <LanguageSelect
-              language={inputLanguage}
-              onChange={(value) => {
-                setInputLanguage(value);
-                setHasTranslated(false);
-                setInputCode('');
-                setOutputCode('');
-              }}
-            />
+            <div className="w-full rounded-md bg-[#1F2937] px-4 py-2 text-neutral-200" >
+              Help Doc
+            </div>
 
             {inputLanguage === 'Natural Language' ? (
               <TextBlock

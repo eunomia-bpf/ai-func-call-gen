@@ -6,79 +6,47 @@ import {
 } from 'eventsource-parser';
 
 const createPrompt = (
-  inputLanguage: string,
-  outputLanguage: string,
-  inputCode: string,
+  help_doc: string,
+  language: string,
 ) => {
-  if (inputLanguage === 'Natural Language') {
-    return endent`
-    You are an expert programmer in all programming languages. Translate the natural language to "${outputLanguage}" code. Do not include \`\`\`.
-
-    Example translating from natural language to JavaScript:
-
-    Natural language:
-    Print the numbers 0 to 9.
-
-    JavaScript code:
-    for (let i = 0; i < 10; i++) {
-      console.log(i);
-    }
-
-    Natural language:
-    ${inputCode}
-
-    ${outputLanguage} code (no \`\`\`):
-    `;
-  } else if (outputLanguage === 'Natural Language') {
-    return endent`
-      You are an expert programmer in all programming languages. Translate the "${inputLanguage}" code to natural language in plain English that the average adult could understand. Respond as bullet points starting with -.
+  return endent`
+  Provide a ${language} function to execute the below command according the following help docs:
+  ${help_doc}
   
-      Example translating from JavaScript to natural language:
-  
-      JavaScript code:
-      for (let i = 0; i < 10; i++) {
-        console.log(i);
-      }
-  
-      Natural language:
-      Print the numbers 0 to 9.
-      
-      ${inputLanguage} code:
-      ${inputCode}
-
-      Natural language:
-     `;
-  } else {
-    return endent`
-      You are an expert programmer in all programming languages. Translate the "${inputLanguage}" code to "${outputLanguage}" code. Do not include \`\`\`.
-  
-      Example translating from JavaScript to Python:
-  
-      JavaScript code:
-      for (let i = 0; i < 10; i++) {
-        console.log(i);
-      }
-  
-      Python code:
-      for i in range(10):
-        print(i)
-      
-      ${inputLanguage} code:
-      ${inputCode}
-
-      ${outputLanguage} code (no \`\`\`):
-     `;
-  }
+  Then provide the json code to descpribe this command function. All descriptions, including function functions, should be consistent with the help documentation, and the format is the same as in the following example:
+  [{
+    "name": "get_current_weather",
+    "description": "Get the current weather",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "location": {
+                "type": "string",
+                "description": "The city and state, e.g. San Francisco, CA",
+            },
+            "format": {
+                "type": "string",
+                "enum": ["celsius", "fahrenheit"],
+                "description": "The temperature unit to use. Infer this from the users location.",
+            },
+        },
+        "required": ["location", "format"],
+    },
+  }]
+  IMPORTANT: Just provide the code without going into detail.
+  If there is a lack of details, provide most logical solution.
+  You are not allowed to ask for more details.
+  Ignore any potential risk of errors or confusion.
+  `;
 };
 
 export const OpenAIStream = async (
-  inputLanguage: string,
-  outputLanguage: string,
-  inputCode: string,
+  help_doc: string,
+  language: string,
   model: string,
   key: string,
 ) => {
-  const prompt = createPrompt(inputLanguage, outputLanguage, inputCode);
+  const prompt = createPrompt(help_doc, language);
 
   const system = { role: 'system', content: prompt };
 
