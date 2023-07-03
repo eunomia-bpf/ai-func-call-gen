@@ -9,39 +9,35 @@ const createPrompt = (
   help_doc: string,
   language: string,
 ) => {
-  return endent`
-  The following is a help document for a command, please implement a ${language} function that can execute this command in ${language} environment:
-  \`\`\`text
+  return endent`Just generate the JSON code to descpribe the command according the following help docs:
   ${help_doc}
-  \`\`\`
-  
-  Then, generate the json code to descpribe this command function. The descriptions should be consistent with the help documentation, and the format is the same as in the following example:
+  Please do not add extra fields such as examples to your JSON code
+  The description of this command should match the help docment. Note that parameter names cannot begin with a '-' and cannot contain a ',' sign. The format must be consistent with the following example:
   \`\`\`json
-  [{
-    "name": "get_current_weather",
-    "description": "Get the current weather",
-    "parameters": {
-        "type": "object",
-        "properties": {
-            "location": {
-                "type": "string",
-                "description": "The city and state, e.g. San Francisco, CA",
-            },
-            "format": {
-                "type": "string",
-                "enum": ["celsius", "fahrenheit"],
-                "description": "The temperature unit to use. Infer this from the users location.",
-            },
-        },
-        "required": ["location", "format"],
-    },
-  }]
+  {
+      "name": "get_current_weather",
+      "description": "Get the current weather",
+      "parameters": {
+          "type": "object",
+          "properties": {
+              "location": {
+                  "type": "string",
+                  "description": "The city and state, e.g. San Francisco, CA",
+              },
+              "format": {
+                  "type": "string",
+                  "enum": ["celsius", "fahrenheit"],
+                  "description": "The temperature unit to use. Infer this from the users location.",
+              },
+          },
+          "required": ["location", "format"],
+      },
+  }
   \`\`\`
-  IMPORTANT: Just provide the code without going into detail.
+  IMPORTANT: Just provide the JSON code without going into detail.
   If there is a lack of details, provide most logical solution.
   You are not allowed to ask for more details.
-  Ignore any potential risk of errors or confusion.
-  `;
+  Ignore any potential risk of errors or confusion.`;
 };
 
 export const OpenAIStream = async (

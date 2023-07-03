@@ -6,48 +6,15 @@ import { TextBlock } from '@/components/TextBlock';
 import { OpenAIModel, TranslateBody } from '@/types/types';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
+import {preview_input_code, preview_output_code, pre_prompt, post_prompt} from "./template"
 
 export default function Home() {
+  const start = "This is the start";
+  const end = "This is the end";
   const [inputLanguage, setInputLanguage] = useState<string>('Help Doc');
-  const [outputLanguage, setOutputLanguage] = useState<string>('Python');
-  const [inputCode, setInputCode] = useState<string>(`
-    pwd: pwd [-LP]
-      Print the name of the current working directory.
-      
-      Options:
-        -L        print the value of $PWD if it names the current working
-                  directory
-        -P        print the physical directory, without any symbolic links
-      
-      By default, \`pwd\` behaves as if \`-L\` were specified.
-      
-      Exit Status:
-      Returns 0 unless an invalid option is given or the current directory
-      cannot be read.\n\n\n\n\n\n\n\n\n`
-  );
-  const [outputCode, setOutputCode] = useState<string>(`
-  import os
-  def pwd(options):
-      if options == "-P":
-          print(os.getcwd())
-      else:
-          print(os.getenv("PWD"))
-
-  # JSON code
-  [{
-    "name": "pwd",
-    "description": "Print the name of the current working directory.",
-    "parameters": {
-        "type": "object",
-        "properties": {
-            "options": {
-                "type": "string",
-                "enum": ["-L", "-P"],
-                "description": "Options for printing the current working directory.",
-            }
-        },
-        "required": ["options"],
-  }]`);
+  const [outputLanguage, setOutputLanguage] = useState<string>('Bash');
+  const [inputCode, setInputCode] = useState<string>(preview_input_code);
+  const [outputCode, setOutputCode] = useState<string>(preview_output_code);
   const [model, setModel] = useState<OpenAIModel>('gpt-3.5-turbo');
   const [loading, setLoading] = useState<boolean>(false);
   const [hasTranslated, setHasTranslated] = useState<boolean>(false);
@@ -250,12 +217,12 @@ export default function Home() {
                 setOutputCode('');
               }}
             />
-
             {outputLanguage === 'Natural Language' ? (
               <TextBlock text={outputCode} />
             ) : (
-              <CodeBlock code={outputCode} />
+              <CodeBlock code={`${pre_prompt}\n${outputCode}\n${post_prompt}`} />
             )}
+
           </div>
         </div>
       </div>
