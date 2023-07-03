@@ -23,7 +23,7 @@ export default function Home() {
       
       Exit Status:
       Returns 0 unless an invalid option is given or the current directory
-      cannot be read.`
+      cannot be read.\n\n\n\n\n\n\n\n\n`
   );
   const [outputCode, setOutputCode] = useState<string>(`
   import os
@@ -47,13 +47,7 @@ export default function Home() {
             }
         },
         "required": ["options"],
-    },
-    "returns": {
-        "type": "integer",
-        "description": "Returns 0 unless an invalid option is given or the current directory cannot be read."
-    }
-  }]
-  `);
+  }]`);
   const [model, setModel] = useState<OpenAIModel>('gpt-3.5-turbo');
   const [loading, setLoading] = useState<boolean>(false);
   const [hasTranslated, setHasTranslated] = useState<boolean>(false);
@@ -181,12 +175,12 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="flex h-full min-h-screen flex-col items-center bg-[#0E1117] px-4 pb-20 text-neutral-200 sm:px-10">
-        <div className="mt-10 flex flex-col items-center justify-center sm:mt-20">
+        <div className="mt-2 flex flex-col items-center justify-center sm:mt-8">
           <div className="text-4xl font-bold">Function Call Generate</div>
         </div>
 
-        <div className="mt-10 flex flex-col items-center justify-center sm:mt-5">
-          <div className="mt-5 text-center text-sm">
+        <div className="mt-0 flex flex-col items-center justify-center sm:mt-0">
+          <div className="mt-0 text-center text-sm">
             Make gpt function call api from commandline help info. <br></br>
             See <a href='https://platform.openai.com/docs/guides/gpt/function-calling'> 
               <u>function-calling</u> </a>

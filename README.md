@@ -1,15 +1,20 @@
-# AI Code Translator
+# Function Call Generate
 
-Use AI to translate code from one language to another.
+Generate gpt function call api from commandline help info. See [function-calling](https://platform.openai.com/docs/guides/gpt/function-calling) for more detail about function call.
 
-![AI Code Translator](./public/screenshot.png)
+![Function Call Generate](./public/screenshot.png)
+
+## Use with Website
+
+You can visit [https://function-call-generate.vercel.app/](https://function-call-generate.vercel.app/) to use this tool online.
+
 
 ## Running Locally
 
 **1. Clone Repo**
 
 ```bash
-git clone https://github.com/mckaywrigley/ai-code-translator.git
+git clone https://github.com/eunomia-bpf/ai-func-call-gen.git
 ```
 
 **2. Install Dependencies**
@@ -23,7 +28,3 @@ npm i
 ```bash
 npm run dev
 ```
-
-## Contact
-
-If you have any questions, feel free to reach out to me on [Twitter](https://twitter.com/mckaywrigley).
