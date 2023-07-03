@@ -1,7 +1,7 @@
 import { APIKeyInput } from '@/components/APIKeyInput';
 import { CodeBlock } from '@/components/CodeBlock';
 import { LanguageSelect } from '@/components/LanguageSelect';
-import {preview_input_code, preview_output_code, pre_prompt, post_prompt} from "@/components/template"
+import {preview_input_code, preview_output_code, pre_bash_script, post_bash_script, pre_python_script, post_python_script} from "@/components/ScriptTemplate"
 import { ModelSelect } from '@/components/ModelSelect';
 import { TextBlock } from '@/components/TextBlock';
 import { OpenAIModel, TranslateBody } from '@/types/types';
@@ -216,10 +216,10 @@ export default function Home() {
                 setOutputCode('');
               }}
             />
-            {outputLanguage === 'Natural Language' ? (
-              <TextBlock text={outputCode} />
+            {outputLanguage === 'Bash' ? (
+              <CodeBlock code={`${pre_bash_script}\n${outputCode}\n${post_bash_script}`} />
             ) : (
-              <CodeBlock code={`${pre_prompt}\n${outputCode}\n${post_prompt}`} />
+              <CodeBlock code={`${pre_python_script}\n${outputCode}\n${post_python_script}`} />
             )}
 
           </div>

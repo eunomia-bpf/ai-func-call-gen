@@ -68,7 +68,7 @@ export const preview_output_code = `
 }`
 
 
-export const pre_prompt = `#!/bin/bash
+export const pre_bash_script = `#!/bin/bash
 user_input="$@"
 response=$(curl -s https://api.openai.com/v1/chat/completions -u :$OPENAI_API_KEY -H 'Content-Type: application/json' -d '{
   "model": "gpt-3.5-turbo-0613",
@@ -76,7 +76,7 @@ response=$(curl -s https://api.openai.com/v1/chat/completions -u :$OPENAI_API_KE
     {"role": "user", "content": "'"$user_input"'"}
   ],
   "functions": [`
-export const post_prompt = `]}')
+export const post_bash_script = `]}')
 
 # Parsing JSON data
 full_command=$(echo "$response" | jq -r '.choices[0].message.function_call.name')
@@ -96,4 +96,36 @@ done
 
 echo "Run: $full_command"
 eval "$full_command"
+`
+
+export const pre_python_script = `#!/bin/python
+import subprocess
+import openai
+import json
+
+# Send the conversation and available functions to GPT
+messages = [{"role": "user", "content": "print the kernel information"}]
+functions = [`
+export const post_python_script = `]
+response = openai.ChatCompletion.create(
+    model="gpt-3.5-turbo-0613",
+    messages=messages,
+    functions=functions,
+    function_call="auto",  # auto is default, but we'll be explicit
+)
+response_message = response["choices"][0]["message"]
+
+# Check if GPT wanted to call a function
+if response_message.get("function_call"):
+    full_command = []
+    full_command.append(response_message["function_call"]["name"])
+    args = json.loads(response_message["function_call"]["arguments"])
+
+    for key, value in args.items():
+        if (value is not True) and (value is not False):
+            full_command.extend([f"--{key}",  f'"{value}"'])
+        else:
+            full_command.append(f"--{key}")
+    print("Run: ", " ".join(full_command))
+    subprocess.run(full_command, text=True)
 `
