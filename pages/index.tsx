@@ -1,12 +1,13 @@
 import { APIKeyInput } from '@/components/APIKeyInput';
 import { CodeBlock } from '@/components/CodeBlock';
 import { LanguageSelect } from '@/components/LanguageSelect';
+import {preview_input_code, preview_output_code, pre_prompt, post_prompt} from "@/components/template"
 import { ModelSelect } from '@/components/ModelSelect';
 import { TextBlock } from '@/components/TextBlock';
 import { OpenAIModel, TranslateBody } from '@/types/types';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
-import {preview_input_code, preview_output_code, pre_prompt, post_prompt} from "./template"
+
 
 export default function Home() {
   const start = "This is the start";
@@ -146,12 +147,10 @@ export default function Home() {
           <div className="text-4xl font-bold">Function Call Generate</div>
         </div>
 
-        <div className="mt-0 flex flex-col items-center justify-center sm:mt-0">
+        <div className="mt-0 flex flex-col items-center justify-center sm:mt-5">
           <div className="mt-0 text-center text-sm">
-            Make gpt function call api from commandline help info. <br></br>
-            See <a href='https://platform.openai.com/docs/guides/gpt/function-calling'> 
-              <u>function-calling</u> </a>
-            for more detail about function call.
+            <b>Your one-click solution to transform traditional command-line tools into natural language-driven powerhouses!</b> <br></br>
+            <u>Copy the generated code into the `cmd-gpt.sh` file, then you can use the command by `bash cmd-gpt.sh your requirements`.</u>
           </div>
         </div>
 
@@ -176,7 +175,7 @@ export default function Home() {
             ? 'Generating...'
             : hasTranslated
             ? 'Output copied to clipboard!'
-            : 'Enter some code and click "Generate"'}
+            : 'Enter help document of command and click "Generate"'}
         </div>
 
         <div className="mt-6 flex w-full max-w-[1200px] flex-col justify-between sm:flex-row sm:space-x-4">

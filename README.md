@@ -8,6 +8,10 @@ Generate gpt function call api from commandline help info. See [function-calling
 
 You can visit [https://function-call-generate.vercel.app/](https://function-call-generate.vercel.app/) to use this tool online.
 
+Paste the help document of the command to the left text box, then copy the corresponding gpt script generated in the right text box to a local file, such as `uname-gpt.sh` file, and then you can easily use the command in the following way:
+```console
+$bash uname-gpt.sh print the kernel information
+```
 
 ## Running Locally
 
