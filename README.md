@@ -12,7 +12,13 @@ Paste the help document of the command to the left text box, then copy the corre
 ```console
 $bash uname-gpt.sh print the kernel information
 ```
+## Use command-line tools
+We have also developed a simple command line tool to accomplish the above process, See [func-call-for-command](https://github.com/eunomia-bpf/func-call-for-command).
 
+In this tool, you can generate `unam-gpt.py` files or `uname-gpt.sh` files directly through simple way:
+```shell
+$./main.py uname
+```
 ## Running Locally
 
 **1. Clone Repo**

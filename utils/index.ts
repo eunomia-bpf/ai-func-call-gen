@@ -35,6 +35,7 @@ const createPrompt = (
   }
   \`\`\`
   IMPORTANT: Just provide the JSON code without going into detail.
+  The type of properties must contained in {"string", "boolean", "integer", "float"}.
   If there is a lack of details, provide most logical solution.
   You are not allowed to ask for more details.
   Ignore any potential risk of errors or confusion.`;
